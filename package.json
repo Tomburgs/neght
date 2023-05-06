@@ -1,21 +1,38 @@
 {
   "name": "neght",
-  "module": "index.ts",
-  "devDependencies": {
-    "@types/shelljs": "^0.8.12",
-    "@types/yargs": "^17.0.24",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+  "version": "1.0.0",
+  "description": "A dependency to build and deploy static Next apps to GitHub Pages",
+  "homepage": "https://github.com/Tomburgs/neght",
+  "bin": {
+    "neght": "dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "start": "ts-node --esm src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prerelease": "yarn build",
+    "preversion": "yarn prerelease",
+    "prepublish": "yarn prerelease"
   },
-  "type": "module",
   "dependencies": {
     "glob": "^10.2.2",
     "shelljs": "^0.8.5",
     "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/shelljs": "^0.8.12",
+    "@types/yargs": "^17.0.24",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }

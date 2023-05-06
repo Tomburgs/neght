@@ -1,4 +1,4 @@
-import shell, {ExecOptions} from 'shelljs';
+import shell, { ExecOptions } from 'shelljs';
 
 type DeployArgs = {
   /** Directory to deploy. */
@@ -13,17 +13,17 @@ type DeployArgs = {
   gitEmail: string;
   /** Message to use for the commit. */
   commitMessage: string;
-}
+};
 
 export async function deploy(args: DeployArgs) {
-  console.log('==> Deploying')
+  console.log('==> Deploying');
 
-  const url = getGitURL(args)
+  const url = getGitURL(args);
   const silent: ExecOptions = { silent: true };
-  const cwd = process.cwd()
+  const cwd = process.cwd();
 
-  shell.cd(args.dir)
-  shell.exec('git init', silent)
+  shell.cd(args.dir);
+  shell.exec('git init', silent);
 
   shell.exec(`git config user.name ${JSON.stringify(args.gitName)}`, silent);
   shell.exec(`git config user.email ${JSON.stringify(args.gitEmail)}`, silent);
@@ -34,17 +34,16 @@ export async function deploy(args: DeployArgs) {
 
   shell.exec(`git push --force --quiet ${url} HEAD:${args.branch}`, silent);
 
-  shell.rm('-rf', '.git')
-  shell.cd(cwd) // Return back to where we came from
+  shell.rm('-rf', '.git');
+  shell.cd(cwd); // Return back to where we came from
 
-  console.log('==> Deployment done 🐙')
+  console.log('==> Deployment done 🐙');
 }
 
 function getGitURL(args: DeployArgs): string {
-  const ref = shell.exec(
-    `git config --get remote.${args.remote}.url`,
-    { silent: true }
-  )
+  const ref = shell.exec(`git config --get remote.${args.remote}.url`, {
+    silent: true,
+  });
 
-  return ref.stdout.trim()
+  return ref.stdout.trim();
 }
