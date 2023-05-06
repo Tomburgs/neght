@@ -1,6 +1,6 @@
 {
   "name": "neght",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A dependency to build and deploy static Next apps to GitHub Pages",
   "homepage": "https://github.com/Tomburgs/neght",
   "bin": {
@@ -14,9 +14,9 @@
   "scripts": {
     "start": "ts-node --esm src/index.ts",
     "build": "tsc",
-    "prerelease": "yarn build",
-    "preversion": "yarn prerelease",
-    "prepublish": "yarn prerelease"
+    "prerelease": "yarn run build",
+    "preversion": "yarn run prerelease",
+    "prepublish": "yarn run prerelease"
   },
   "dependencies": {
     "glob": "^10.2.2",
