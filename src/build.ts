@@ -8,6 +8,11 @@ type BuildArgs = {
   script: string;
 }
 
+type BuildOutput = {
+  /** Directory in which build files are output(ted?). */
+  distDir: string;
+}
+
 export async function validate(args: BuildArgs) {
   console.log('==> Validating next.config.js')
 
@@ -27,15 +32,22 @@ export async function validate(args: BuildArgs) {
   }
 }
 
-export async function build(args: BuildArgs) {
+export async function build(args: BuildArgs): Promise<BuildOutput> {
   await validate(args)
 
   console.log('==> Building Next')
 
-  const pkg = await getPackageFile(args)
+  const cfg = await getNextConfig(args)
+  const cwd = process.cwd()
 
   shell.cd(args.dir)
   shell.exec(`npm run ${args.script}`)
+  shell.cd(cwd)
+
+  return {
+    // Next's default distDir is 'out'
+    distDir: path.resolve(args.dir, cfg.distDir ?? 'out')
+  }
 }
 
 type NextConfig = {

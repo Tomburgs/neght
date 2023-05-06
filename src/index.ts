@@ -1,6 +1,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers'
 import { build } from './build.js';
+import { deploy } from './deploy.js';
 
 const args = await yargs(hideBin(process.argv))
   // TODO: proper version reporting. for now just install the version you want?
@@ -30,10 +31,47 @@ const args = await yargs(hideBin(process.argv))
     desc: 'Git branch to push to.',
     type: 'string',
     default: 'gh-pages'
-  }).argv
+  })
+  .option('remote', {
+    desc: 'Git remote to push to.',
+    type: 'string',
+    default: 'origin'
+  })
+  .option('git-name', {
+    desc: 'name to use for the git commit.',
+    type: 'string',
+    default: 'Neght Bot'
+  })
+  .option('git-email', {
+    desc: 'email to use for the git commit.',
+    type: 'string',
+    default: 'neght@github.com'
+  })
+  .option('commit-message', {
+    desc: 'message for the git commit',
+    type: 'string',
+    default: 'Deploy Next to GitHub Pages'
+  })
+  .argv
 
 
-build({
+const { distDir } = await build({
   dir: args.dir,
   script: args.script
 })
+
+if (args.dryRun) {
+  console.info('==> Exiting without publishing due to dry-run set.');
+  process.exit(0);
+}
+
+await deploy({
+  dir: distDir,
+  branch: args.branch,
+  remote: args.remote,
+  gitName: args.gitName,
+  gitEmail: args.gitEmail,
+  commitMessage: args.commitMessage,
+})
+
+process.exit(0)
