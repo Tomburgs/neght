@@ -24,6 +24,7 @@ export async function deploy(args: DeployArgs) {
 
   shell.cd(args.dir);
   shell.exec('git init', silent);
+  shell.touch('.nojekyll');
 
   shell.exec(`git config user.name ${JSON.stringify(args.gitName)}`, silent);
   shell.exec(`git config user.email ${JSON.stringify(args.gitEmail)}`, silent);
@@ -35,6 +36,7 @@ export async function deploy(args: DeployArgs) {
   shell.exec(`git push --force --quiet ${url} HEAD:${args.branch}`, silent);
 
   shell.rm('-rf', '.git');
+  shell.rm('.nojekyll');
   shell.cd(cwd); // Return back to where we came from
 
   console.log('==> Deployment done 🐙');

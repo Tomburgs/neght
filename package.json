@@ -1,6 +1,6 @@
 {
   "name": "neght",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A dependency to build and deploy static Next apps to GitHub Pages",
   "homepage": "https://github.com/Tomburgs/neght",
   "bin": {
